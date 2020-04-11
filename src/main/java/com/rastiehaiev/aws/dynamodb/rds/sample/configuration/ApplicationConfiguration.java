@@ -40,8 +40,8 @@ public class ApplicationConfiguration {
     private static final String ID_ATTRIBUTE = "id";
     private static final String MIGRATION_STATUS_ATTRIBUTE = "migrationStatus";
 
-    @Value("${application.migration.threads-count}")
-    private int threadsCount;
+    @Value("${application.migration.threads-count:}")
+    private Integer threadsCount;
 
     @Value("${amazon.dynamodb.endpoint:}")
     private String dynamoDbEndpoint;
@@ -64,6 +64,9 @@ public class ApplicationConfiguration {
 
     @Bean
     public ThreadPoolExecutor migrationThreadPoolExecutor() {
+        if (threadsCount == null) {
+            threadsCount = Runtime.getRuntime().availableProcessors();
+        }
         return (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsCount);
     }
 

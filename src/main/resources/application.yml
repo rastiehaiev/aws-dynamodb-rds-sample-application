@@ -12,6 +12,9 @@ spring:
     properties:
       hibernate.temp.use_jdbc_metadata_defaults: false
 
+server:
+  port: 8008
+
 logging:
   level:
     root: ${LOGGING_LEVEL_ROOT:INFO}
@@ -23,4 +26,5 @@ amazon:
 
 application:
   migration:
-    threads-count: ${APPLICATION_MIGRATION_THREADS_COUNT}
+    threads-count: ${APPLICATION_MIGRATION_THREADS_COUNT:8}
+    batch-size: ${APPLICATION_MIGRATION_BATCH_SIZE:20}

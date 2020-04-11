@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "fbc54a8c-2857-41e8-93c0-4c81ac54e08d",
+		"name": "candidate-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List All Users in RDS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/v1/candidate",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"v1",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Users in DynamoDB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/v2/candidate",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"v2",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user to RDS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Crocker\",\n  \"programmingLanguage\": \"JAVA\",\n  \"experience\": [\n    {\n      \"company\": \"EPAM\",\n      \"project\": \"EPAM Cloud\",\n      \"startTimestamp\": 1460223160000,\n      \"endTimestamp\": 1523295160000\n    },\n    {\n      \"company\": \"AgileEngine\",\n      \"project\": \"TransVoyant\",\n      \"startTimestamp\": 1523295160000,\n      \"endTimestamp\": 1586453560000\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/v1/candidate",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"v1",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user to DynamoDB",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Crocker\",\n  \"programmingLanguage\": \"JAVA\",\n  \"experience\": [\n    {\n      \"company\": \"EPAM\",\n      \"project\": \"EPAM Cloud\",\n      \"startTimestamp\": 1460223160000,\n      \"endTimestamp\": 1523295160000\n    },\n    {\n      \"company\": \"AgileEngine\",\n      \"project\": \"TransVoyant\",\n      \"startTimestamp\": 1523295160000,\n      \"endTimestamp\": 1586453560000\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/v2/candidate",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"v2",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Migrate from RDS",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/candidate/migration/from/v1/to/v2",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"candidate",
+						"migration",
+						"from",
+						"v1",
+						"to",
+						"v2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Migrate from DynamoDB",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://{{hostname}}:8008/api/candidate/migration/from/v2/to/v1",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "8008",
+					"path": [
+						"api",
+						"candidate",
+						"migration",
+						"from",
+						"v2",
+						"to",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3c3fb7b7-5316-4943-a474-b852b6756a2c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9a0b986a-8603-4d02-aff8-51825157fbbb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "fc537a12-82c2-4599-9b37-74289895adf8",
+			"key": "hostname",
+			"value": "localhost",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -2,11 +2,13 @@ package com.rastiehaiev.aws.dynamodb.rds.sample.entity.rds;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @Entity(name = "experience")
+@ToString(exclude = "candidate")
 @EqualsAndHashCode(exclude = "candidate")
 public class ExperienceItemEntity {
 

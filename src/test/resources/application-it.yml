@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: it
+  application:
+    name: birthday-reminder-service
+  datasource:
+    url: REPLACED_IN_TEST
+    username: username
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    properties:
+      hibernate.temp.use_jdbc_metadata_defaults: false
+
+logging:
+  level:
+    root: info
+    org.testcontainers: info
+
+amazon:
+  aws:
+    accessKey: dummy
+    secretKey: dummy
+  dynamodb:
+    endpoint: REPLACED_IN_TEST
+
+application:
+  migration:
+    threads-count: 8
+    batch-size: 20

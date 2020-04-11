@@ -9,7 +9,7 @@ public interface CandidateService {
 
     List<Candidate> listAll();
 
-    void create(Candidate candidate);
+    Candidate create(Candidate candidate);
 
     void migrate(List<Candidate> candidates);
 

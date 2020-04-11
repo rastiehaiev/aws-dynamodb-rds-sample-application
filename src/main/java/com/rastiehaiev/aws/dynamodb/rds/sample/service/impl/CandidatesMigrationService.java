@@ -6,10 +6,14 @@ import com.rastiehaiev.aws.dynamodb.rds.sample.model.MigrationStatus;
 import com.rastiehaiev.aws.dynamodb.rds.sample.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,6 +27,9 @@ public class CandidatesMigrationService {
     private final ThreadPoolExecutor migrationThreadPoolExecutor;
 
     private CompletableFuture<Void> lastMigration;
+
+    @Value("${application.migration.batch-size}")
+    private int batchSize;
 
     public synchronized MigrationStatus migrate(String source, String destination) {
         if (source.equals(destination)) {
@@ -65,7 +72,7 @@ public class CandidatesMigrationService {
 
         List<MigrationTask> tasks = new ArrayList<>();
         for (int i = 0; i < migrationThreadPoolExecutor.getCorePoolSize(); i++) {
-            tasks.add(new MigrationTask(uuids, sourceCandidateService, destinationCandidateService));
+            tasks.add(new MigrationTask(uuids, sourceCandidateService, destinationCandidateService, batchSize));
         }
         return tasks;
     }
@@ -84,6 +91,7 @@ public class CandidatesMigrationService {
         private final Queue<String> uuids;
         private final CandidateService sourceCandidateService;
         private final CandidateService destinationCandidateService;
+        private final int batchSize;
 
         @Override
         public Void call() {
@@ -91,6 +99,7 @@ public class CandidatesMigrationService {
             do {
                 uuids = pollMultiple(this.uuids);
                 if (!CollectionUtils.isEmpty(uuids)) {
+                    log.info("Migrating {} elements.", uuids.size());
                     sourceCandidateService.migrateTo(uuids, destinationCandidateService::migrate);
                 }
             } while (!uuids.isEmpty());
@@ -98,7 +107,7 @@ public class CandidatesMigrationService {
         }
 
         private List<String> pollMultiple(Queue<String> queue) {
-            return IntStream.range(0, 10).boxed()
+            return IntStream.range(0, batchSize).boxed()
                     .map(i -> queue.poll())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
